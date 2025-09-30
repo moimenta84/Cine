@@ -1,16 +1,16 @@
 <?php
 declare(strict_types =1);
 class user{
-
     private String $name;
     private String $email;
     private String $password;
+    private Pdo $conexion;
     
-    public function __construct(array $data){
-
-        $this->name['name']
-        $this->mail['email']
-        $this->password = ['password']
+    public function __construct(array $data = [],Pdo $conexion){
+        $this ->conexion = $conexion;
+        $this-> name = $data['name'];
+        $this-> email = $data['email'];
+        $this->password = $data['password'];
     }
     /**
      * @param $name
@@ -22,8 +22,8 @@ class user{
     /**
      * @param $mail
      */
-    public function setMail($mail){
-        $this->mail = $mail;
+    public function setMail($email){
+        $this->email = $email;
     }
     /**
      * @param $password
@@ -37,7 +37,7 @@ class user{
     }
 
     public function getMail():String{
-        return $this->mail;
+        return $this->email;
     }
 
     public function getPassword():String{
@@ -45,26 +45,19 @@ class user{
     }
 
      public function showCard():void {
-        echo " {$this->name} - {$this->mail} - {$this->password}";
+        echo " {$this->name} - {$this->email} - {$this->password}";
     }
 
-
     function register(){
-
-        $conexion = new Conection();
-        $pdo = $conexion-> getPdo();
-        $sql = `INSERT INTO User($this->name $this->mail $this->password)
+        $sql = `INSERT INTO User($this->name $this->email $this->password)
         VALUES(?, ?, ?)`;
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$this->name, $this->mail, $this->password]);
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute([$this->name, $this->email, $this->password]);
     }
 
     function deleteUserById($id){
-
-        $conection = new Conection();
-        $pdo = $conection-> getPdo();
         $sql = `DELETE FROM User WHERE id = $id`;
-        $stmt = $pdo->prepare($sql);
+        $stmt = $this->conexion->prepare($sql);
         $stmt->execute([$this->$id]);
     }
 }
