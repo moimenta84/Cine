@@ -1,0 +1,30 @@
+/*ESTILOS GENERALES DEL HOME*/
+body {
+    background-color: #f5f2e7;
+}
+.navbar-custom {
+    background-color: #8c6d5a;
+}
+.navbar-custom .nav-link,
+.navbar-custom .navbar-brand {
+    color: #f5f2e7;
+}
+.navbar-custom .nav-link:hover {
+    color: #ffd700;
+}
+.carousel-caption {
+    background-color: rgba(140, 109, 90, 0.7);
+    border-radius: 10px;
+}
+footer {
+    background-color: #8c6d5a;
+    color: #f5f2e7;
+}
+.btn-primary-custom {
+    background-color: #8c6d5a;
+    border-color: #8c6d5a;
+}
+.btn-primary-custom:hover {
+    background-color: #a0816e;
+    border-color: #a0816e;
+}
