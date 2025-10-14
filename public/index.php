@@ -1,51 +1,46 @@
 <?php
+require_once __DIR__ . '/../config/Config.php';
+require_once __DIR__ . '/../dataBase/DataBase.php';
+require_once __DIR__.'/../app/models/User.php';
+require_once __DIR__.'/../app/Request.php';
+require_once __DIR__ .'/../app/core/http/controllers/UserController.php';
 
-require_once __DIR__ . '/../Config.php';
-require_once __DIR__ . '/../Core/DataBase.php';
+use app\Request;
+use app\core\Http\controllers\UserController;
+use app\models\User;
 
-//instancio la conexion//
-$config = new Config();
-$db = new DataBase($config);
+use Core\DataBase;
+// 1. Inicializar la conexión con tu clase DataBase
+DataBase::connect();
 
-$page = $_GET['page'] ?? 'home'; // valor por defecto: home
+// 2. Pasar esa conexión al modelo User
+User::setConnection(DataBase::getConnection());
+$request = new Request();
 
-switch ($page) {
+
+$action = $request->input('action','home');
+
+switch ($action) {
     case 'home':
-        require_once '../app/views/home.php';
+        include __DIR__.'../../resources/views/home.php';
         break;
 
     case 'login':
-        require_once '../app/views/login.php';
+        require_once '../resources/views/login.php';
         break;
 
     case 'register':
-          require_once __DIR__ . '/../app/views/registerView.php';
+         
+        // Procesar el formulario
+        $controller = new UserController($request);
+        $controller->store(); 
         break;
 
     default:
-        echo "Página no encontrada";
+     include __DIR__.'../../resources/views/home.php';
+    break;
+
         break;
 }
 
 
-
-
-$page = $_GET['page'] ?? 'home'; // valor por defecto: home
-
-switch ($page) {
-    case 'home':
-        require_once '../app/views/home.php';
-        break;
-
-    case 'login':
-        require_once '../app/views/login.php';
-        break;
-
-    case 'register':
-          require_once __DIR__ . '/../app/views/registerView.php';
-        break;
-
-    default:
-        echo "Página no encontrada";
-        break;
-}

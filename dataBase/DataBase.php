@@ -1,22 +1,39 @@
 <?php
-require_once __DIR__ . '/../Config.php';
+namespace Core;
+use Config\Config;
+use PDO;
+use PDOException;
+
 
 class DataBase {
-    //Instancia pdo//
-    public PDO $conection;
-    function __construct(Config $config) {
+    private static ?PDO $conexion = null;
 
-    	try{
-            //Instancio pdo pasandole el config//
-            $this->conection = new PDO(
-                "mysql : dbHost={$config -> dbHost},dbName={$config -> dbName}
-                ,dbPassword{$config -> dbPassword},dbUser{$config -> dbUser}"
-            );
-            echo('conectado');
-            $this->conection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }catch(PDOException $e){
-            die("error de conexion ".$e->getMessage());
+    //LO delaro estatico Para  Inicializar conexión solo una vez
+    public static function connect(): void {
+        if (self::$conexion === null) {
+
+            $config = new Config();
+            $config ->__toString();
+            try {
+                //LLAMO ALaclaseestatica//
+                self::$conexion = new PDO(
+                    $config->getDsn(),
+                    $config->getDbUser(),
+                    $config->getDbPassword()
+                );
+                self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                die("Error de conexión " . $e->getMessage());
+            }
         }
     }
+
+    // Obtener la conexión PDO
+    public static function getConnection(): PDO {
+        if (self::$conexion === null) {
+            die("Error alinciar la base de datos");
+        }
+        return self::$conexion;
+    }
 }
-?>
+

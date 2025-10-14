@@ -1,63 +1,41 @@
 <?php
 declare(strict_types =1);
+namespace App\Models;
+require_once __DIR__ . '/../../dataBase/DataBase.php';
+use app\config\Config;
+use PDO;
+
+
 class user{
-    private String $name;
-    private String $email;
-    private String $password;
-    private Pdo $conexion;
+ 
+    private  static ? Pdo $conexion = null;
+    private array $data;
     
-    public function __construct(array $data = [],Pdo $conexion){
-        $this ->conexion = $conexion;
-        $this-> name = $data['name'];
-        $this-> email = $data['email'];
-        $this->password = $data['password'];
-    }
-    /**
-     * @param $name
-     */
-    public function setName($name){
-        $this->name = $name;
+    
+   // Configurar la conexión compartida
+    public static function setConnection(PDO $pdo): void {
+        self::$conexion = $pdo;
     }
 
-    /**
-     * @param $mail
-     */
-    public function setMail($email){
-        $this->email = $email;
-    }
-    /**
-     * @param $password
-     */
-    public function setPassword($password){
-        $this->password = $password;
+    // Constructor para los datos de cada usuario
+    public function __construct(array $data = []) {
+        $this->data = $data;
     }
 
-    public function getName():String {
-        return $this->name;
-    }
+    // Insertar en la BD usando la conexión estática
+    public function register(): void {
+        if (self::$conexion === null) {
+            die('Error en la configuracion');
+        }
 
-    public function getMail():String{
-        return $this->email;
-    }
+        $stmt = self::$conexion->prepare(
+            "INSERT INTO user (name, email, password) VALUES (?, ?, ?)"
+        );
 
-    public function getPassword():String{
-        return $this->password;
-    }
-
-     public function showCard():void {
-        echo " {$this->name} - {$this->email} - {$this->password}";
-    }
-
-    function register(){
-        $sql = `INSERT INTO User($this->name $this->email $this->password)
-        VALUES(?, ?, ?)`;
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->execute([$this->name, $this->email, $this->password]);
-    }
-
-    function deleteUserById($id){
-        $sql = `DELETE FROM User WHERE id = $id`;
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->execute([$this->$id]);
+        $stmt->execute([
+            $this->data['name'] ?? '',
+            $this->data['email'] ?? '',
+            $this->data['password'] ?? ''
+        ]);
     }
 }

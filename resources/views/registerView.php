@@ -10,7 +10,7 @@
 <body>
 
 <div class="glass-container">
-  <form>
+  <form method="post" action="../../public/index.php?action=register";
     <h2>Registro</h2>
 
     <div class="input-group">

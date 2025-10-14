@@ -1,4 +1,5 @@
 <?php
+namespace config;
 class Config {
 
     public string $dbName;
@@ -8,7 +9,7 @@ class Config {
 
 
     function __construct() {
-        
+
     	$this->dbName = 'cine';
     	$this->dbUser = 'root';
     	$this->dbPassword = '';
@@ -71,6 +72,10 @@ class Config {
     public function setDbHost(string $dbHost): void {
     	$this->dbHost = $dbHost;
     }
+
+    public function getDsn(): string {
+    return "mysql:host={$this->dbHost};dbname={$this->dbName};charset=utf8";
+}
 
     
 

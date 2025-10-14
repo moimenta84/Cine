@@ -22,11 +22,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarOpciones">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link " href="../index.php?page=register"><i class="fas fa-home me-1"></i>Inicio Sesion</a></li>
+                    <li class="nav-item"><a class="nav-link " href=""><i class="fas fa-home me-1"></i>Inicio Sesion</a></li>
                     <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-video me-1"></i>Películas</a></li>
                     <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-door-open me-1"></i>Salas</a></li>
                     <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-ticket-alt me-1"></i>Reservas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/public/index.php"><i class="fas fa-user-plus me-1"></i>Registrar</a></li>
+                    <li class="nav-item"><a class="nav-link" 
+                     href="../../public/index.php?action=register">
+                    <i class="fas fa-user-plus me-1">
+      
+                    </i>Registrar</a></li>
                 </ul>
             </div>
         </div>
