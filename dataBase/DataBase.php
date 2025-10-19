@@ -3,11 +3,8 @@ namespace Core;
 use Config\Config;
 use PDO;
 use PDOException;
-
-
 class DataBase {
     private static ?PDO $conexion = null;
-
     //LO delaro estatico Para  Inicializar conexión solo una vez
     public static function connect(): void {
         if (self::$conexion === null) {
@@ -15,7 +12,7 @@ class DataBase {
             $config = new Config();
             $config ->__toString();
             try {
-                //LLAMO ALaclaseestatica//
+                //LLAMO a la clase estatica//
                 self::$conexion = new PDO(
                     $config->getDsn(),
                     $config->getDbUser(),
@@ -27,7 +24,6 @@ class DataBase {
             }
         }
     }
-
     // Obtener la conexión PDO
     public static function getConnection(): PDO {
         if (self::$conexion === null) {
