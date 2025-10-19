@@ -1,31 +1,25 @@
 <?php
-declare(strict_types =1);
+
+declare(strict_types=1);
+
 namespace App\Models;
-require_once __DIR__ . '/../../dataBase/DataBase.php';
-use app\config\Config;
+
 use PDO;
+use app\core\Model\Model;
 
+class User extends Model {
+    protected array $allowedAttributes = ['name', 'email', 'password'];
+    protected static ?PDO $conexion = null;
 
-class user{
- 
-    private  static ? Pdo $conexion = null;
-    private array $data;
-    
-    
-   // Configurar la conexión compartida
+    // Configura la conexión compartida
     public static function setConnection(PDO $pdo): void {
         self::$conexion = $pdo;
     }
 
-    // Constructor para los datos de cada usuario
-    public function __construct(array $data = []) {
-        $this->data = $data;
-    }
-
-    // Insertar en la BD usando la conexión estática
+    // Inserta el usuario en la base de datos
     public function register(): void {
         if (self::$conexion === null) {
-            die('Error en la configuracion');
+            throw new \RuntimeException("No hay conexión configurada.");
         }
 
         $stmt = self::$conexion->prepare(
